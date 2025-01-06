@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jai Jawan Jai Kisan LokShakti Sangathan</title>
+    <style>
+        /* General Reset */
+        body, h1, p, div, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Responsive Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #7ff9c0, #7ff9c0); /* Soft gradient */
+            color: #333;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #3afb67; /* Green header */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        header .nav-title {
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        header .nav-title img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        header .nav-title .logo-text {
+            display: inline-block;
+        }
+
+        header .language-toggle {
+            background-color: white;
+            color: #007bff;
+            border: 1px solid white;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #04560d;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .option {
+            width: 180px;
+            height: 140px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #04560d;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.1); /* Glassmorphism effect */
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3); /* Glassmorphism border */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            background-color: #00ffa2;
+            color: white;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+
+        .iframe-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            z-index: 1000;
+        }
+
+        .iframe-container.active {
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .option {
+                width: 150px;
+                height: 120px;
+                font-size: 12px;
+            }
+
+            header .nav-title img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+
+            header .nav-title img {
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .option {
+                width: 120px;
+                height: 100px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-title">
+            <img src="Logo_JJJK.png" alt="Logo">
+            <span class="logo-text" data-en="Jai Jawan Jai Kisan LokShakti Sangathan" data-hi="जय जवान जय किसान लोकशक्ति संघठन">Jai Jawan Jai Kisan LokShakti Sangathan</span>
+        </div>
+        <button class="language-toggle" onclick="toggleLanguage()">हिंदी / English</button>
+    </header>
+
+    <main>
+        <h1 data-en="Welcome to Jai Jawan Jai Kisan LokShakti Sangathan Generator Hub" data-hi="जय जवान जय किसान लोकशक्ति संगठन जेनरेटर हब में आपका स्वागत है">Welcome to Jai Jawan Jai Kisan LokShakti Sangathan Generator Hub</h1>
+        <div class="options">
+            <div class="option" onclick="openIframe('idcard.html')" data-en="Generate ID Card" data-hi="आईडी कार्ड जनरेट करें">Generate ID Card</div>
+            <div class="option" onclick="openIframe('dp.html')" data-en="Generate DP" data-hi="डीपी जनरेट करें">Generate DP</div>
+        </div>
+    </main>
+
+    <div class="iframe-container" id="iframeContainer">
+        <button class="close-btn" onclick="closeIframe()">Close</button>
+        <iframe id="iframeContent"></iframe>
+    </div>
+
+    <script>
+        let currentLanguage = 'en';
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLanguage}`);
+            });
+
+            // Update the logo text separately
+            const logoText = document.querySelector('.logo-text');
+            logoText.textContent = logoText.getAttribute(`data-${currentLanguage}`);
+        }
+
+        function openIframe(page) {
+            document.getElementById('iframeContainer').classList.add('active');
+            document.getElementById('iframeContent').src = page;
+        }
+
+        function closeIframe() {
+            document.getElementById('iframeContainer').classList.remove('active');
+            document.getElementById('iframeContent').src = '';
+        }
+    </script>
+</body>
+</html>

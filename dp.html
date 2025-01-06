@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jai Jawan Jai Kisan LokShakti Sangathan -Ayodhya Shivir</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+            background: linear-gradient(135deg, #7ff9c0, #7ff9c0); /* Soft gradient */
+        }
+        h1 {
+            color: #343a40;
+        }
+        .input-group {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        canvas {
+            border: 1px solid #ced4da;
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 768px) {
+            canvas {
+                width: 90%;
+            }
+            button {
+                width: 90%;
+                max-width: 300px;
+            }
+            .input-group input {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Jai Jawan Jai Kisan LokShakti Sangathan -Ayodhya Chintan Shivir</h1>
+
+    <div class="input-group">
+        <label for="userName">Name (नाम): </label>
+        <input type="text" id="userName" placeholder="Enter your name">
+    </div>
+
+    <div class="input-group">
+        <label for="userPost">Post (पद): </label>
+        <input type="text" id="userPost" placeholder="Enter your post">
+    </div>
+
+    <div class="input-group">
+        <label for="userPhoto">Upload Profile Photo (प्रोफ़ाइल फ़ोटो अपलोड करें): </label>
+        <input type="file" id="userPhoto" accept="image/*">
+    </div>
+
+    <button id="generateBtn">Generate DP</button>
+    <br>
+    <canvas id="outputCanvas" width="500" height="500"></canvas>
+    <br>
+    <button id="downloadBtn" style="display: none;">Download DP</button>
+
+    <script>
+        const userNameInput = document.getElementById('userName');
+        const userPostInput = document.getElementById('userPost');
+        const userPhotoInput = document.getElementById('userPhoto');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const canvas = document.getElementById('outputCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const templateImage = new Image();
+        templateImage.src = "base_img.png"; // Replace with the URL of your uploaded image
+
+        let profileImage = null;
+
+        userPhotoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImage = new Image();
+                    profileImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        generateBtn.addEventListener('click', () => {
+            if (!profileImage) {
+                alert('Please upload a profile photo.');
+                return;
+            }
+
+            const userName = userNameInput.value.trim();
+            const userPost = userPostInput.value.trim();
+
+            if (!userName || !userPost) {
+                alert('Please fill in all the details.');
+                return;
+            }
+
+            // Draw template image
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
+
+            // Draw profile photo in a circular frame at the bottom left
+            const photoSize = 100; // Reduced size
+            const photoX = 40; // Bottom left corner, with more spacing
+            const photoY = canvas.height - 120; // Positioned lower
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.clip();
+
+            ctx.drawImage(profileImage, photoX, photoY, photoSize, photoSize);
+            ctx.restore();
+
+            // Draw text on the bottom right
+            ctx.fillStyle = '#124e1d';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'right';
+            ctx.fillText(`निवेदक: ${userName}`, canvas.width - 40, canvas.height - 70);
+            ctx.fillText(`${userPost}`, canvas.width - 40, canvas.height - 40); // Post on the next line
+
+            downloadBtn.style.display = 'inline-block';
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'DP.jpg';
+            link.href = canvas.toDataURL('image/jpeg');
+            link.click();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Card Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin-top: 60px;
+            background: linear-gradient(135deg, #7ff9c0, #7ff9c0); /* Soft gradient */
+            
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-section label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .form-section input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .card {
+            flex: 1;
+            width: 350px;
+            height: 500px; /* Adjusted for vertical orientation */
+            border: 2px solid #000;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(5, 5, 5, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #91f516, #56ab2f);
+            z-index: 1;
+        }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 600px;
+            background: url('Bg.jpg') no-repeat center;
+            background-size: contain;
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        .card-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .hardcoded-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        .card-header .title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .card-header .subtitle {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .card-content {
+            display: flex;
+            gap: 15px;
+            flex-grow: 1;
+        }
+        .card-content img {
+            width: 120px;
+            height: 150px;
+            object-fit: cover;
+        }
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            font-size: 14px;
+            line-height: 1.2; /* Reduced line height */
+            flex-grow: 1;
+            color: #000;
+        }
+        .card-footer {
+            text-align: center;
+            border-top: 2px solid #000;
+            padding-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .language-toggle {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .card {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+            }
+            .form-section {
+                flex: 1;
+                min-width: 100%;
+            }
+            .container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-section input {
+                font-size: 14px;
+                padding: 6px;
+            }
+            .form-section label {
+                font-size: 12px;
+            }
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+            }
+            .card-content {
+                align-items: center;
+                gap: 10px;
+            }
+            .card-header .title {
+                font-size: 18px;
+            }
+            .card-header .subtitle {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 90%;
+                max-width: 300px;
+                padding: 10px;
+            }
+            .form-section input {
+                font-size: 12px;
+                padding: 5px;
+            }
+            .form-section label {
+                font-size: 10px;
+            }
+            .button {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            .language-toggle {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="language-toggle" onclick="toggleLanguage()">हिंदी / English</button>
+    <div class="container">
+        <div class="form-section">
+            <label for="name" data-en="Name:" data-hi="नाम:">Name:</label>
+            <input type="text" id="name" placeholder="Enter Name">
+            <label for="phone" data-en="Phone:" data-hi="फ़ोन:">Phone:</label>
+            <input type="text" id="phone" placeholder="Enter Phone Number">
+            <label for="post" data-en="Post:" data-hi="पद:">Post:</label>
+            <input type="text" id="post" placeholder="Enter Post">
+            <label for="village" data-en="Village:" data-hi="गांव:">Village:</label>
+            <input type="text" id="village" placeholder="Enter Village">
+            <label for="state" data-en="State:" data-hi="राज्य:">State:</label>
+            <input type="text" id="state" placeholder="Enter State">
+            <label for="image" data-en="Upload Profile Picture:" data-hi="प्रोफ़ाइल तस्वीर अपलोड करें:">Upload Profile Picture:</label>
+            <input type="file" id="image" accept="image/*">
+            <button class="button" id="generate-btn" onclick="generateCard()">Generate ID Card</button>
+            <button class="button" id="download-btn" onclick="downloadCard()">Download as JPG</button>
+        </div>
+        <div class="card" id="card">
+            <div class="card-header">
+                <img class="hardcoded-image" src="Logo_JJJK.png" alt="Hardcoded Logo">
+                <div class="title" data-en="Jai Jawan Jai Kisan LokShakti Sangathan" data-hi="जय जवान जय किसान लोकशक्ति संघठन">Jai Jawan Jai Kisan LokShakti Sangathan</div>
+                <div class="subtitle" data-en="Ayodhya Chintan Shivir" data-hi="अयोध्या चिंतन शिविर">Ayodhya Chintan Shivir</div>
+            </div>
+            <div class="card-content">
+                <div class="card-details">
+                    <p id="card-name" data-en="Name:" data-hi="नाम:">Name:</p>
+                    <p id="card-phone" data-en="Phone:" data-hi="फ़ोन:">Phone:</p>
+                    <p id="card-post" data-en="Post:" data-hi="पद:">Post:</p>
+                    <p id="card-village" data-en="Village:" data-hi="गांव:">Village:</p>
+                    <p id="card-state" data-en="State:" data-hi="राज्य:">State:</p>
+                </div>
+                <img id="profile-pic" src="" alt="Profile Picture">
+            </div>
+            <div class="card-footer" data-en="Authorized by: Jai Jawan Jai Kisan LokShakti" data-hi="अधिकृत: जय जवान जय किसान लोकशक्ति">Authorized by: Jai Jawan Jai Kisan LokShakti</div>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'en';
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLanguage}`);
+            });
+            document.getElementById('generate-btn').textContent = currentLanguage === 'en' ? 'Generate ID Card' : 'आईडी कार्ड जनरेट करें';
+            document.getElementById('download-btn').textContent = currentLanguage === 'en' ? 'Download as JPG' : 'जेपीजी के रूप में डाउनलोड करें';
+        }
+
+        function generateCard() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const post = document.getElementById('post').value;
+            const village = document.getElementById('village').value;
+            const state = document.getElementById('state').value;
+            const imageInput = document.getElementById('image');
+
+            document.getElementById('card-name').textContent = `${document.getElementById('card-name').getAttribute('data-' + currentLanguage)} ${name || ""}`;
+            document.getElementById('card-phone').textContent = `${document.getElementById('card-phone').getAttribute('data-' + currentLanguage)} ${phone || ""}`;
+            document.getElementById('card-post').textContent = `${document.getElementById('card-post').getAttribute('data-' + currentLanguage)} ${post || ""}`;
+            document.getElementById('card-village').textContent = `${document.getElementById('card-village').getAttribute('data-' + currentLanguage)} ${village || ""}`;
+            document.getElementById('card-state').textContent = `${document.getElementById('card-state').getAttribute('data-' + currentLanguage)} ${state || ""}`;
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profile-pic').src = e.target.result;
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            }
+        }
+
+        function downloadCard() {
+            const card = document.getElementById('card');
+            html2canvas(card, { scale: 3, backgroundColor: null, useCORS: true }).then((canvas) => {
+                const link = document.createElement('a');
+                link.download = 'id_card.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 1.0); // Save as JPG with high quality
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
