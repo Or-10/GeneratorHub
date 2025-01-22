@@ -5,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jai Jawan Jai Kisan LokShakti Sangathan</title>
     <style>
+        /* General Reset */
         body, h1, p, div, button {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Updated Body Background Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(155deg, #5e65e6, #5ee6b9);
-            background-size: cover;
-            background-attachment: fixed;
+            background: linear-gradient(155deg, #5e65e6, #5ee6b9); /* Soft gradient */
+            background-size: cover; /* Ensure the background gradient covers the full screen */
+            background-attachment: fixed; /* Keep the background fixed while scrolling */
             color: #333;
-            overflow-y: auto;
-            position: relative;
+            overflow: hidden;
+            position: relative; /* To allow positioning of circles */
         }
 
         header {
-            background-color: #3afb6780;
+            background-color: #3afb6780; /* Green header */
             color: white;
             padding: 10px 20px;
             text-align: center;
@@ -48,6 +50,10 @@
             height: 60px;
             margin-right: 10px;
             border-radius: 50%;
+        }
+
+        header .nav-title .logo-text {
+            display: inline-block;
         }
 
         header .language-toggle {
@@ -76,34 +82,36 @@
             text-align: center;
         }
 
+        /* Adjusted styling for options container */
         .options {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Align in a column */
             gap: 30px;
             justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 600px;
+            align-items: center; /* Center the options */
+            width: 100%; /* Full width */
+            max-width: 600px; /* Limit the width for better layout */
             margin-top: 20px;
         }
 
+        /* Adjusted styling for individual options */
         .option {
-            width: 100%;
-            height: 220px;
-            max-width: 500px;
+            width: 100%; /* 100% width to fill the container */
+            height: 220px; /* Adjust height */
+            max-width: 500px; /* Set a max-width for the options */
             border-radius: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-size: 16px;
+            font-size: 16px; /* Increase font size */
             font-weight: bold;
             color: #04560d;
             cursor: pointer;
             transition: 0.3s;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1); /* Glassmorphism effect */
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3); /* Glassmorphism border */
             position: relative;
             overflow: hidden;
         }
@@ -113,10 +121,16 @@
             color: white;
         }
 
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+
         .iframe-container {
             display: none;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             position: fixed;
             top: 0;
             left: 0;
@@ -126,12 +140,6 @@
 
         .iframe-container.active {
             display: block;
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
 
         .close-btn {
@@ -144,6 +152,137 @@
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .option {
+                width: 80%; /* Decrease width for smaller screens */
+                max-width: 260px; /* Limit max-width */
+                font-size: 14px;
+            }
+
+            header .nav-title img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+
+            header .nav-title img {
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .option {
+                width: 90%; /* Decrease width for even smaller screens */
+                max-width: 220px; /* Limit max-width further */
+                font-size: 12px;
+            }
+        }
+
+        /* Stationary and responsive circles with different sizes and positions */
+        .circle {
+            position: fixed;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .circle:nth-child(1) {
+            width: 70px;
+            height: 70px;
+            top: 5%;
+            left: 5%;
+        }
+
+        .circle:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 15%;
+            right: 10%;
+        }
+
+        .circle:nth-child(3) {
+            width: 110px;
+            height: 110px;
+            bottom: 20%;
+            left: 10%;
+        }
+
+        .circle:nth-child(4) {
+            width: 130px;
+            height: 130px;
+            bottom: 10%;
+            right: 15%;
+        }
+
+        /* Responsive circles for smaller screens */
+        @media (max-width: 768px) {
+            .circle {
+                width: 50px;
+                height: 50px;
+            }
+
+            .circle:nth-child(1) {
+                top: 10%;
+                left: 5%;
+            }
+
+            .circle:nth-child(2) {
+                top: 20%;
+                right: 5%;
+            }
+
+            .circle:nth-child(3) {
+                bottom: 15%;
+                left: 5%;
+            }
+
+            .circle:nth-child(4) {
+                bottom: 20%;
+                right: 10%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .circle {
+                width: 35px;
+                height: 35px;
+            }
+
+            .circle:nth-child(1) {
+                top: 15%;
+                left: 5%;
+            }
+
+            .circle:nth-child(2) {
+                top: 20%;
+                right: 5%;
+            }
+
+            .circle:nth-child(3) {
+                bottom: 20%;
+                left: 5%;
+            }
+
+            .circle:nth-child(4) {
+                bottom: 25%;
+                right: 5%;
+            }
         }
     </style>
 </head>
@@ -161,7 +300,6 @@
         <div class="options">
             <div class="option" onclick="openIframe('idcard.html')" data-en="Generate ID Card" data-hi="आईडी कार्ड जनरेट करें">Generate ID Card</div>
             <div class="option" onclick="openIframe('dp.html')" data-en="Generate DP" data-hi="डीपी जनरेट करें">Generate DP</div>
-            <div class="option" onclick="openIframe('invitation.html')" data-en="Generate Invitation" data-hi="निमंत्रण बनाएं">Generate Invitation</div>
         </div>
     </main>
 
@@ -170,14 +308,26 @@
         <iframe id="iframeContent"></iframe>
     </div>
 
+    <!-- Stationary Circles -->
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+
     <script>
-       function toggleLanguage() {
-            let currentLanguage = 'en';
+        let currentLanguage = 'en';
+
+        function toggleLanguage() {
             currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
             document.querySelectorAll('[data-en]').forEach(el => {
-                el.textContent = el.getAttribute(`data-${currentLanguage}`);
+                el.textContent = el.getAttribute(`data-${currentLanguage}`); 
             });
+
+            // Update the logo text separately
+            const logoText = document.querySelector('.logo-text');
+            logoText.textContent = logoText.getAttribute(`data-${currentLanguage}`);
         }
+
         function openIframe(page) {
             document.getElementById('iframeContainer').classList.add('active');
             document.getElementById('iframeContent').src = page;
